@@ -5,7 +5,9 @@ import {
   fitLines,
   inlineTextOf,
   kindOf,
+  layoutOf,
   leftToRightOf,
+  topDownOf,
   pickLayout,
   mermaidBlocksOf,
   plainOf,
@@ -279,5 +281,32 @@ describe('pickLayout', () => {
     const [base] = both(td)
     expect(pickLayout(base, { error: 'x' }, 100)).toBe(base)
     expect(pickLayout({ error: 'x' }, base, 100)).toEqual({ error: 'x' })
+  })
+})
+
+describe('topDownOf', () => {
+  test('turns a sideways flowchart top-down and leaves the rest alone', () => {
+    expect(topDownOf('flowchart LR\n  A --> B')).toBe('flowchart TD\n  A --> B')
+    expect(topDownOf('graph RL\n  A --> B')).toBe('graph TD\n  A --> B')
+    expect(topDownOf('flowchart TD\n  A --> B')).toBeNull()
+    expect(topDownOf(SEQ)).toBeNull()
+  })
+})
+
+describe('layoutOf', () => {
+  const render = (source: string) => renderOf(source, false)
+  const wide = 'flowchart LR\n  a["first long step"] --> b["second long step"] --> c["third long step"] --> d["fourth long step"]'
+  const widthAt = (columns: number) => {
+    const art = layoutOf(wide, columns, true, render)
+    return 'lines' in art ? widthOf(art.lines) : -1
+  }
+
+  test('a sideways flowchart that fits keeps its layout', () => {
+    expect(layoutOf(wide, 500, true, render)).toEqual(render(wide))
+  })
+
+  test('a sideways flowchart too wide for the room is drawn top-down', () => {
+    expect(widthAt(500)).toBeGreaterThan(60)
+    expect(widthAt(60)).toBeLessThanOrEqual(60)
   })
 })

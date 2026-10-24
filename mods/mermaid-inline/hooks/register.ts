@@ -4,11 +4,9 @@ import {
   ansiLineOf,
   fitLines,
   inlineTextOf,
-  leftToRightOf,
+  layoutOf,
   mermaidBlocksOf,
-  pickLayout,
   renderOf,
-  withoutPseudoStates,
   type Rendered,
 } from './diagrams.ts'
 
@@ -18,8 +16,9 @@ import {
 
 const COMMAND = 'mermaid'
 const PREFS_KEY = 'prefs'
-// the transcript's code block has a gutter and margins the art must clear
-const INLINE_MARGIN = 6
+// the transcript's code block has a gutter and margins the art must clear,
+// plus 4 for the border and padding of readable-layout's answer frame
+const INLINE_MARGIN = 10
 
 type Prefs = { ascii: boolean; color: boolean; lr: boolean }
 const DEFAULT_PREFS: Prefs = { ascii: false, color: false, lr: true }
@@ -38,13 +37,6 @@ const rendered = (source: string): Rendered => {
     cache.set(key, out)
   }
   return out
-}
-
-const drawn = (source: string, columns: number): Rendered => {
-  const prepared = withoutPseudoStates(source)
-  const base = rendered(prepared)
-  const sideways = prefs.lr ? leftToRightOf(prepared) : null
-  return sideways ? pickLayout(base, rendered(sideways), columns) : base
 }
 
 const onOff = (word: string): boolean | undefined =>
@@ -76,12 +68,12 @@ export const register: Register = on => {
     const palette = prefs.color && e.surface === 'terminal' ? ANSI_PALETTE : null
     const text = inlineTextOf(e.props.text, blocks, block => {
       const room = columns - block.indent.length
-      const art = drawn(block.source, room)
+      const art = layoutOf(block.source, room, prefs.lr, rendered)
       if (!('lines' in art)) return null
       const fit = fitLines(art.lines, room)
-      const lines = fit.lines.map(line => ansiLineOf(line, palette))
-      if (fit.overflow > 0) lines.push(ansiLineOf([{ text: `… ${fit.overflow} columns cut · widen the terminal`, role: 'line' }], palette))
-      return lines
+      // cut art reads as a broken diagram; the source is still readable
+      if (fit.overflow > 0) return null
+      return fit.lines.map(line => ansiLineOf(line, palette))
     })
     return next({ ...e, props: { ...e.props, text } })
   })

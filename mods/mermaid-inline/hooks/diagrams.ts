@@ -108,7 +108,15 @@ export const leftToRightOf = (source: string): string | null => {
   return null
 }
 
-const tokensOf = (lines: readonly (readonly Segment[])[]): Map<string, number> => {
+// The way back for a sideways flowchart too wide for the terminal. Null when the
+// source does not pick a sideways direction
+export const topDownOf = (source: string): string | null => {
+  if (kindOf(source) !== 'flowchart') return null
+  const header = /^(\s*(?:flowchart|graph))\s+(LR|RL)\b([^\n]*)$/im.exec(source)
+  return header ? source.replace(header[0], `${header[1]} TD${header[3]}`) : null
+}
+
+const tokensOf =(lines: readonly (readonly Segment[])[]): Map<string, number> => {
   const out = new Map<string, number>()
   for (const line of lines) for (const token of plainOf(line).match(/[\p{L}\p{N}_+#-]+/gu) ?? []) out.set(token, (out.get(token) ?? 0) + 1)
   return out
@@ -123,6 +131,18 @@ export const pickLayout = (base: Rendered, sideways: Rendered, columns: number):
   for (const [token, count] of tokensOf(base.lines)) if ((have.get(token) ?? 0) < count) return base
   const width = widthOf(sideways.lines)
   return width <= columns || width <= widthOf(base.lines) ? sideways : base
+}
+
+// The layout drawn for `columns`: top-down sources go sideways when nothing is
+// lost, sideways sources go top-down only when they do not fit
+export const layoutOf = (source: string, columns: number, sideways: boolean, render: (source: string) => Rendered): Rendered => {
+  const prepared = withoutPseudoStates(source)
+  const base = render(prepared)
+  const across = sideways ? leftToRightOf(prepared) : null
+  if (across) return pickLayout(base, render(across), columns)
+  const upright = topDownOf(prepared)
+  if (!upright || !('lines' in base) || widthOf(base.lines) <= columns) return base
+  return pickLayout(base, render(upright), columns)
 }
 
 // The renderer colours by role but only emits ANSI. Rendering in truecolor
