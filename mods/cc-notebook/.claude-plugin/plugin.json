@@ -1,0 +1,26 @@
+{
+  "name": "cc-notebook",
+  "version": "0.3.3",
+  "description": "A data science lab in Claude Code: persistent notebooks and rendered chat images, equations, diagrams and charts.",
+  "author": {
+    "name": "AbdoKnbGit",
+    "url": "https://github.com/AbdoKnbGit"
+  },
+  "homepage": "https://github.com/AbdoKnbGit/cc-notebook",
+  "repository": "https://github.com/AbdoKnbGit/cc-notebook",
+  "documentationUrl": "https://github.com/AbdoKnbGit/cc-notebook#readme",
+  "keywords": [
+    "notebook",
+    "python",
+    "markdown",
+    "jupyter",
+    "claude-code",
+    "data-science",
+    "mermaid",
+    "latex",
+    "typst"
+  ],
+  "types": "./types/index.d.ts",
+  "mcpServers": "./mcp/notebook.mcpb",
+  "license": "MIT"
+}

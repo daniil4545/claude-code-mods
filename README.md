@@ -23,6 +23,7 @@ Swap in any name from the tables below. Switch a mod off with `/plugin disable <
 | agent-monitor | [mods/agent-monitor](mods/agent-monitor) | Plan progress bar above the prompt and a pane with every subagent: model, effort, context, estimated cost, time | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | Not tried |
 | prompt-queue | [mods/prompt-queue](mods/prompt-queue) | `/q <text>` holds a prompt while Claude works and sends it when the turn ends; upstream name `claude-queue` | [galElmalah](https://github.com/galElmalah/claude-mods) | Not tried |
 | codevibez | [mods/codevibez](mods/codevibez) | Plain English in place of raw tool rows, failures and deletions never softened, a summary line at the end of each turn; `/codevibez` switches to raw rows, `/codevibez story` opens the session story | [leonhong18](https://github.com/leonhong18/codevibez) | In use |
+| cc-notebook | [mods/cc-notebook](mods/cc-notebook) | `/iui` draws each answer as a picture with Typst: LaTeX math, diagrams, plots and charts; `/lab` adds Python notebooks. Needs kitty, Ghostty or iTerm2 3.6+; replaces readable-layout's answer boxes while on | [AbdoKnbGit](https://github.com/AbdoKnbGit/cc-notebook) | Trying |
 
 ## Skins
 

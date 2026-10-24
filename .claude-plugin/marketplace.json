@@ -34,6 +34,11 @@
       "description": "Plain English in place of raw tool rows, a summary line at the end of each turn, /codevibez to switch back."
     },
     {
+      "name": "cc-notebook",
+      "source": "./mods/cc-notebook",
+      "description": "Answers drawn as pictures with Typst: LaTeX math, diagrams, plots and charts in the chat; also Python notebooks. Needs a kitty-graphics terminal."
+    },
+    {
       "name": "ember",
       "source": "./skins/ember",
       "description": "Warm, soft dark theme for /theme."
