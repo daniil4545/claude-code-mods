@@ -72,7 +72,7 @@ export const register: Register = on => {
       if (!('lines' in art)) return null
       const fit = fitLines(art.lines, room)
       // cut art reads as a broken diagram; the source is still readable
-      if (fit.overflow > 0) return null
+      if (fit.overflow > 0) return [...block.source.split('\n'), `· needs ${fit.width} columns, the window gives ${room}`]
       return fit.lines.map(line => ansiLineOf(line, palette))
     })
     return next({ ...e, props: { ...e.props, text } })
