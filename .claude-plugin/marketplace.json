@@ -29,6 +29,11 @@
       "description": "/q <text> holds a prompt while Claude works and sends it when the turn ends."
     },
     {
+      "name": "codevibez",
+      "source": "./mods/codevibez",
+      "description": "Plain English in place of raw tool rows, a summary line at the end of each turn, /codevibez to switch back."
+    },
+    {
       "name": "ember",
       "source": "./skins/ember",
       "description": "Warm, soft dark theme for /theme."
