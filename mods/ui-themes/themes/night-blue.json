@@ -1,0 +1,35 @@
+{
+  "name": "night-blue",
+  "description": "Night Blue: navy prompt, near-black reply, bright blue/cyan text (custom, Tokyo Night based)",
+  "prompt": {
+    "bg": "#15204a"
+  },
+  "reply": {
+    "bg": "#0d0f17"
+  },
+  "markdown": {
+    "code": "#9fe7ff",
+    "bold": "#ffffff",
+    "heading": "#8fb8ff",
+    "link": "#8fb8ff",
+    "bullet": "#8fb8ff",
+    "quote": "#b4bce0",
+    "rule": "#545c7e"
+  },
+  "statusline": {
+    "model": "#7aa2f7",
+    "modelOpus": "#bb9af7",
+    "modelSonnet": "#7aa2f7",
+    "modelHaiku": "#9ece6a",
+    "modelFable": "#ff9e64",
+    "dir": "#c0caf5",
+    "git": "#9ece6a",
+    "dirty": "#e0af68",
+    "label": "#9aa5ce",
+    "muted": "#565f89",
+    "ok": "#9ece6a",
+    "warn": "#e0af68",
+    "hot": "#f7768e",
+    "sep": "#3b4261"
+  }
+}

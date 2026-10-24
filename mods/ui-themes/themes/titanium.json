@@ -1,0 +1,35 @@
+{
+  "name": "titanium",
+  "description": "Oh My Pi titanium: steel blue + brushed titanium",
+  "prompt": {
+    "bg": "#0a2a3d"
+  },
+  "reply": {
+    "bg": "#151820"
+  },
+  "markdown": {
+    "code": "#00ff88",
+    "bold": "#e8ecf4",
+    "heading": "#00b4ff",
+    "link": "#00b4ff",
+    "bullet": "#00b4ff",
+    "quote": "#9ca3b0",
+    "rule": "#2a3038"
+  },
+  "statusline": {
+    "model": "#00b4ff",
+    "dir": "#e8ecf4",
+    "git": "#00ff88",
+    "dirty": "#ffb347",
+    "label": "#9ca3b0",
+    "muted": "#6b7280",
+    "ok": "#4fd6be",
+    "warn": "#ffc777",
+    "hot": "#ff757f",
+    "sep": "#4a5058",
+    "modelOpus": "#00b4ff",
+    "modelSonnet": "#4fd6be",
+    "modelHaiku": "#ffc777",
+    "modelFable": "#c099ff"
+  }
+}

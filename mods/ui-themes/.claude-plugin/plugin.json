@@ -1,0 +1,8 @@
+{
+  "name": "ui-themes",
+  "version": "0.4.1",
+  "description": "Switchable themes for Claude Code: padded prompt/reply boxes, coloured markdown and a matching status line. /theme to switch.",
+  "author": { "name": "Yugal Burde" },
+  "license": "MIT",
+  "keywords": ["theme", "ui", "statusline", "markdown"]
+}

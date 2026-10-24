@@ -1,0 +1,35 @@
+{
+  "name": "claude-warm",
+  "description": "Claude terracotta + charcoal",
+  "prompt": {
+    "bg": "#4a2a1c"
+  },
+  "reply": {
+    "bg": "#1a1a1a"
+  },
+  "markdown": {
+    "code": "#e0a458",
+    "bold": "#f5e6d3",
+    "heading": "#d97757",
+    "link": "#d97757",
+    "bullet": "#d97757",
+    "quote": "#a8998a",
+    "rule": "#3a3029"
+  },
+  "statusline": {
+    "model": "#d97757",
+    "dir": "#f5e6d3",
+    "git": "#a3b18a",
+    "dirty": "#e0a458",
+    "label": "#a8998a",
+    "muted": "#8a7b6e",
+    "ok": "#a3b18a",
+    "warn": "#e0a458",
+    "hot": "#e5534b",
+    "sep": "#5c4a3d",
+    "modelOpus": "#d97757",
+    "modelSonnet": "#e0a458",
+    "modelHaiku": "#a3b18a",
+    "modelFable": "#c49bbb"
+  }
+}

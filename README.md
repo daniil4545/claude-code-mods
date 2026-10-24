@@ -1,33 +1,45 @@
 # claude-code-mods
 
-A personal shortlist of [Claude Code](https://claude.com/claude-code) mods worth a look: plugins built on Claude Code's function hooks that change what you see in the terminal or what the session does.
+A personal collection of [Claude Code](https://claude.com/claude-code) mods and skins: copies of other authors' work in one plugin marketplace, to switch on and off from one place and adapt later.
 
-For now this repository is a catalog with notes. Mods I adapt for my own setup will land here later as a plugin marketplace.
+Each copy keeps its author's license and an `UPSTREAM.md` with the source and commit it was taken from.
+
+## Install
+
+```
+/plugin marketplace add daniil4545/claude-code-mods
+/plugin install readable-layout@daniil-mods
+```
+
+Swap in any name from the tables below. Switch a mod off with `/plugin disable <name>@daniil-mods`, back on with `/plugin enable`. Run `/reload-plugins` after a change.
 
 ## Mods
 
-| Mod | Source | What it does | License | Status |
+| Mod | Folder | What it does | Author | Status |
 |---|---|---|---|---|
-| Readable Layout | [GarvitNangru/claude-code-mods](https://github.com/GarvitNangru/claude-code-mods/tree/main/mods/readable-layout) | Your messages and Claude's answers in labeled bordered boxes, short notes as dim lines, a rule with the duration at the end of each turn, coloured bold text | MIT | In use |
-| mermaid-inline | [galElmalah/claude-mods](https://github.com/galElmalah/claude-mods) | Draws mermaid blocks as box art inline in the transcript | MIT | In use |
-| ui-themes | [yugal1107/ui-themes](https://github.com/yugal1107/ui-themes) | Prompt and reply on coloured padded backgrounds, themed markdown, matching status line, `/ui-theme` picker | MIT | Tried, replaced by Readable Layout |
-| Agent Monitor | [GarvitNangru/claude-code-mods](https://github.com/GarvitNangru/claude-code-mods/tree/main/mods/agent-monitor) | Plan progress bar above the prompt and a pane with every subagent: model, effort, context, estimated cost, time | MIT | Not installed |
-| cctop | [tomstagl/cctop](https://github.com/tomstagl/cctop) | btop-style live dashboard of context, tokens, cost, limits, tools and agents in a pane beside the session | MIT | Not reviewed |
-| claude-queue | [galElmalah/claude-mods](https://github.com/galElmalah/claude-mods) | `/q <text>` holds a prompt while Claude works and sends it when the turn ends | MIT | Not reviewed |
+| readable-layout | [mods/readable-layout](mods/readable-layout) | Your messages and Claude's answers in labeled bordered boxes, short notes as dim lines, a rule with the duration at the end of each turn, coloured bold text | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | In use |
+| mermaid-inline | [mods/mermaid-inline](mods/mermaid-inline) | Draws mermaid blocks as box art inline in the transcript | [galElmalah](https://github.com/galElmalah/claude-mods) | In use, colour off by default |
+| ui-themes | [mods/ui-themes](mods/ui-themes) | Prompt and reply on coloured padded backgrounds, themed markdown, matching status line, `/ui-theme` picker | [yugal1107](https://github.com/yugal1107/ui-themes) | Tried, replaced by readable-layout |
+| agent-monitor | [mods/agent-monitor](mods/agent-monitor) | Plan progress bar above the prompt and a pane with every subagent: model, effort, context, estimated cost, time | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | Not tried |
+| prompt-queue | [mods/prompt-queue](mods/prompt-queue) | `/q <text>` holds a prompt while Claude works and sends it when the turn ends; upstream name `claude-queue` | [galElmalah](https://github.com/galElmalah/claude-mods) | Not tried |
 
 ## Skins
 
-Themes for the built-in `/theme` command. They also recolour mods that use theme colours, such as the Readable Layout borders.
+Themes for the built-in `/theme` command. They also recolour mods that use theme colours, such as the readable-layout borders.
 
-| Skin | Source | What it does | License | Status |
+| Skin | Folder | What it does | Author | Status |
 |---|---|---|---|---|
-| Ember | [GarvitNangru/claude-code-mods](https://github.com/GarvitNangru/claude-code-mods/tree/main/skins/ember) | Warm, soft dark theme; theme file only, no code | MIT | Not installed |
-| Firelight | [GarvitNangru/claude-code-mods](https://github.com/GarvitNangru/claude-code-mods/tree/main/skins/firelight) | Coal, Smoulder (dark) and Ash (light); also recolours the terminal via OSC codes while selected | MIT | Not installed |
+| ember | [skins/ember](skins/ember) | Warm, soft dark theme; theme file only, no code | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | Not tried |
+| firelight | [skins/firelight](skins/firelight) | Coal, Smoulder (dark) and Ash (light); also recolours the terminal via OSC codes while selected | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | Not tried |
+
+## Worth a look, not copied
+
+- [tomstagl/cctop](https://github.com/tomstagl/cctop): btop-style live dashboard of context, tokens, cost, limits, tools and agents in a pane beside the session. A Rust app with its own plugin, so it stays a link.
 
 ## Notes
 
-- Two mods that both replace `AssistantMessage` rendering and do not call `next` compete: only one of them draws the reply. Readable Layout and mermaid-inline work together, because mermaid-inline rewrites the text and passes it on.
-- Agent Monitor registers a `progress` tool and adds guidance to every request: a few hundred tokens per request plus one tool call per plan step.
+- Two mods that both replace `AssistantMessage` rendering and do not call `next` compete: only one of them draws the reply. readable-layout and mermaid-inline work together, because mermaid-inline rewrites the text and passes it on.
+- agent-monitor registers a `progress` tool and adds guidance to every request: a few hundred tokens per request plus one tool call per plan step.
 
 ## Bigger catalogs
 
@@ -36,4 +48,4 @@ Themes for the built-in `/theme` command. They also recolour mods that use theme
 
 ## License
 
-[MIT](LICENSE)
+The repository's own files are [MIT](LICENSE). Each mod and skin keeps its author's license in its folder.

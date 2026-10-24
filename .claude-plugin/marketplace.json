@@ -1,0 +1,42 @@
+{
+  "name": "daniil-mods",
+  "owner": { "name": "daniil4545" },
+  "description": "Copies of Claude Code mods and skins collected from other authors, to install from one place and adapt later.",
+  "plugins": [
+    {
+      "name": "readable-layout",
+      "source": "./mods/readable-layout",
+      "description": "Your messages and Claude's answers in labeled bordered boxes, short notes as dim lines, a rule at the end of each turn."
+    },
+    {
+      "name": "mermaid-inline",
+      "source": "./mods/mermaid-inline",
+      "description": "Mermaid diagrams drawn as box art inline in the transcript."
+    },
+    {
+      "name": "ui-themes",
+      "source": "./mods/ui-themes",
+      "description": "Prompt and reply on coloured padded backgrounds, themed markdown, matching status line, /ui-theme picker."
+    },
+    {
+      "name": "agent-monitor",
+      "source": "./mods/agent-monitor",
+      "description": "Plan progress bar above the prompt and a pane with every subagent: model, context, estimated cost, time."
+    },
+    {
+      "name": "prompt-queue",
+      "source": "./mods/prompt-queue",
+      "description": "/q <text> holds a prompt while Claude works and sends it when the turn ends."
+    },
+    {
+      "name": "ember",
+      "source": "./skins/ember",
+      "description": "Warm, soft dark theme for /theme."
+    },
+    {
+      "name": "firelight",
+      "source": "./skins/firelight",
+      "description": "Firelight themes for /theme: Coal, Smoulder and Ash; recolours the terminal while selected."
+    }
+  ]
+}
