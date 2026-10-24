@@ -22,7 +22,7 @@ Swap in any name from the tables below. Switch a mod off with `/plugin disable <
 | ui-themes | [mods/ui-themes](mods/ui-themes) | Prompt and reply on coloured padded backgrounds, themed markdown, matching status line, `/ui-theme` picker | [yugal1107](https://github.com/yugal1107/ui-themes) | Tried, replaced by readable-layout |
 | agent-monitor | [mods/agent-monitor](mods/agent-monitor) | Plan progress bar above the prompt and a pane with every subagent: model, effort, context, estimated cost, time | [GarvitNangru](https://github.com/GarvitNangru/claude-code-mods) | Not tried |
 | prompt-queue | [mods/prompt-queue](mods/prompt-queue) | `/q <text>` holds a prompt while Claude works and sends it when the turn ends; upstream name `claude-queue` | [galElmalah](https://github.com/galElmalah/claude-mods) | Not tried |
-| codevibez | [mods/codevibez](mods/codevibez) | Plain English in place of raw tool rows, failures and deletions never softened, a summary line at the end of each turn; `/codevibez` switches to raw rows, `/codevibez story` opens the session story | [leonhong18](https://github.com/leonhong18/codevibez) | Trying |
+| codevibez | [mods/codevibez](mods/codevibez) | Plain English in place of raw tool rows, failures and deletions never softened, a summary line at the end of each turn; `/codevibez` switches to raw rows, `/codevibez story` opens the session story | [leonhong18](https://github.com/leonhong18/codevibez) | In use |
 
 ## Skins
 
