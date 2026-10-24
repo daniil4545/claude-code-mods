@@ -39,6 +39,7 @@ Themes for the built-in `/theme` command. They also recolour mods that use theme
 ## Notes
 
 - Two mods that both replace `AssistantMessage` rendering and do not call `next` compete: only one of them draws the reply. readable-layout and mermaid-inline work together, because mermaid-inline rewrites the text and passes it on.
+- Order matters: mods run in the order of `enabledPlugins` in `~/.claude/settings.json`, and a reinstall moves a mod to the end. Keep `mermaid-inline@daniil-mods` above `readable-layout@daniil-mods`, or diagrams show as source.
 - agent-monitor registers a `progress` tool and adds guidance to every request: a few hundred tokens per request plus one tool call per plan step.
 
 ## Bigger catalogs
