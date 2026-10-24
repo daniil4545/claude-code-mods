@@ -116,7 +116,20 @@ export const topDownOf = (source: string): string | null => {
   return header ? source.replace(header[0], `${header[1]} TD${header[3]}`) : null
 }
 
-const tokensOf =(lines: readonly (readonly Segment[])[]): Map<string, number> => {
+const LONG_LABEL = 13
+
+// Quoted labels of LONG_LABEL characters or more broken in two at the space
+// nearest the middle: a sideways flowchart a step narrower before it goes top-down
+export const wrapLabelsOf = (source: string): string =>
+  source.replace(/"([^"\n]+)"/g, (whole, label: string) => {
+    if (label.length < LONG_LABEL || label.includes('<br')) return whole
+    const middle = label.length / 2
+    let at = -1
+    for (let i = label.indexOf(' '); i >= 0; i = label.indexOf(' ', i + 1)) if (at < 0 || Math.abs(i - middle) < Math.abs(at - middle)) at = i
+    return at < 0 ? whole : `"${label.slice(0, at)}<br>${label.slice(at + 1)}"`
+  })
+
+const tokensOf = (lines: readonly (readonly Segment[])[]): Map<string, number> => {
   const out = new Map<string, number>()
   for (const line of lines) for (const token of plainOf(line).match(/[\p{L}\p{N}_+#-]+/gu) ?? []) out.set(token, (out.get(token) ?? 0) + 1)
   return out
@@ -134,7 +147,7 @@ export const pickLayout = (base: Rendered, sideways: Rendered, columns: number):
 }
 
 // The layout drawn for `columns`: top-down sources go sideways when nothing is
-// lost, sideways sources go top-down only when they do not fit
+// lost, sideways sources that do not fit try wrapped labels, then top-down
 export const layoutOf = (source: string, columns: number, sideways: boolean, render: (source: string) => Rendered): Rendered => {
   const prepared = withoutPseudoStates(source)
   const base = render(prepared)
@@ -142,6 +155,8 @@ export const layoutOf = (source: string, columns: number, sideways: boolean, ren
   if (across) return pickLayout(base, render(across), columns)
   const upright = topDownOf(prepared)
   if (!upright || !('lines' in base) || widthOf(base.lines) <= columns) return base
+  const wrapped = render(wrapLabelsOf(prepared))
+  if ('lines' in wrapped && widthOf(wrapped.lines) <= columns) return wrapped
   return pickLayout(base, render(upright), columns)
 }
 

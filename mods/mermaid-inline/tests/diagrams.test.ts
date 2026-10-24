@@ -8,6 +8,7 @@ import {
   layoutOf,
   leftToRightOf,
   topDownOf,
+  wrapLabelsOf,
   pickLayout,
   mermaidBlocksOf,
   plainOf,
@@ -308,5 +309,21 @@ describe('layoutOf', () => {
   test('a sideways flowchart too wide for the room is drawn top-down', () => {
     expect(widthAt(500)).toBeGreaterThan(60)
     expect(widthAt(60)).toBeLessThanOrEqual(60)
+  })
+
+  test('a room between the two takes the sideways layout with wrapped labels', () => {
+    const full = widthAt(500)
+    const room = full - 10
+    const art = layoutOf(wide, room, true, render)
+    expect(art).toEqual(render(wrapLabelsOf(wide)))
+    expect(widthAt(room)).toBeLessThanOrEqual(room)
+  })
+})
+
+describe('wrapLabelsOf', () => {
+  test('breaks a long label at the space nearest the middle and leaves short ones', () => {
+    expect(wrapLabelsOf('a["first long step"] --> b["go"]')).toBe('a["first<br>long step"] --> b["go"]')
+    expect(wrapLabelsOf('a["one<br>two three four"]')).toBe('a["one<br>two three four"]')
+    expect(wrapLabelsOf('a["averyverylongword"]')).toBe('a["averyverylongword"]')
   })
 })
