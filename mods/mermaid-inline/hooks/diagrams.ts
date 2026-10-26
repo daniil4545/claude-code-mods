@@ -122,12 +122,43 @@ const LONG_LABEL = 13
 // nearest the middle: a sideways flowchart a step narrower before it goes top-down
 export const wrapLabelsOf = (source: string): string =>
   source.replace(/"([^"\n]+)"/g, (whole, label: string) => {
-    if (label.length < LONG_LABEL || label.includes('<br')) return whole
-    const middle = label.length / 2
-    let at = -1
-    for (let i = label.indexOf(' '); i >= 0; i = label.indexOf(' ', i + 1)) if (at < 0 || Math.abs(i - middle) < Math.abs(at - middle)) at = i
-    return at < 0 ? whole : `"${label.slice(0, at)}<br>${label.slice(at + 1)}"`
+    const wrapped = wrappedOf(label)
+    return wrapped === null ? whole : `"${wrapped}"`
   })
+
+// null when the label is short, already wrapped or has no space to break at
+const wrappedOf = (label: string): string | null => {
+  if (label.length < LONG_LABEL || label.includes('<br')) return null
+  const middle = label.length / 2
+  let at = -1
+  for (let i = label.indexOf(' '); i >= 0; i = label.indexOf(' ', i + 1)) if (at < 0 || Math.abs(i - middle) < Math.abs(at - middle)) at = i
+  return at < 0 ? null : `${label.slice(0, at)}<br>${label.slice(at + 1)}`
+}
+
+const MESSAGE = /^(\s*)([^\s:]+?)\s*(<<-->>|<<->>|-->>|->>|-->|->|--x|-x|--\)|-\))\s*[+-]?([^\s:]+?)\s*:\s*(.*)$/
+const NOTE = /^(\s*Note\s+(?:over|left of|right of)\s+[^:]+:)\s*(.*)$/i
+
+// A sequence diagram has no other layout, so long message and note texts
+// break in two; a long self-message becomes a note over its participant,
+// since the renderer puts the second line of a wrapped one at column 0
+export const wrapMessagesOf = (source: string): string =>
+  source
+    .split('\n')
+    .map(line => {
+      const note = NOTE.exec(line)
+      if (note) {
+        const wrapped = wrappedOf(note[2] ?? '')
+        return wrapped === null ? line : `${note[1]} ${wrapped}`
+      }
+      const message = MESSAGE.exec(line)
+      if (!message) return line
+      const [, indent, from, , to, text = ''] = message
+      const wrapped = wrappedOf(text)
+      if (wrapped === null) return line
+      if (from === to) return `${indent}Note over ${from}: ${wrapped}`
+      return `${line.slice(0, line.length - text.length)}${wrapped}`
+    })
+    .join('\n')
 
 const tokensOf = (lines: readonly (readonly Segment[])[]): Map<string, number> => {
   const out = new Map<string, number>()
@@ -147,10 +178,16 @@ export const pickLayout = (base: Rendered, sideways: Rendered, columns: number):
 }
 
 // The layout drawn for `columns`: top-down sources go sideways when nothing is
-// lost, sideways sources that do not fit try wrapped labels, then top-down
+// lost, sideways sources that do not fit try wrapped labels, then top-down;
+// a sequence diagram that does not fit only wraps its texts
 export const layoutOf = (source: string, columns: number, sideways: boolean, render: (source: string) => Rendered): Rendered => {
   const prepared = withoutPseudoStates(source)
   const base = render(prepared)
+  if (kindOf(prepared) === 'sequence') {
+    if (!('lines' in base) || widthOf(base.lines) <= columns) return base
+    const wrapped = render(wrapMessagesOf(prepared))
+    return 'lines' in wrapped && widthOf(wrapped.lines) < widthOf(base.lines) ? wrapped : base
+  }
   const across = sideways ? leftToRightOf(prepared) : null
   if (across) return pickLayout(base, render(across), columns)
   const upright = topDownOf(prepared)

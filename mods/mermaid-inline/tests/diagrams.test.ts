@@ -9,6 +9,7 @@ import {
   leftToRightOf,
   topDownOf,
   wrapLabelsOf,
+  wrapMessagesOf,
   pickLayout,
   mermaidBlocksOf,
   plainOf,
@@ -325,5 +326,45 @@ describe('wrapLabelsOf', () => {
     expect(wrapLabelsOf('a["first long step"] --> b["go"]')).toBe('a["first<br>long step"] --> b["go"]')
     expect(wrapLabelsOf('a["one<br>two three four"]')).toBe('a["one<br>two three four"]')
     expect(wrapLabelsOf('a["averyverylongword"]')).toBe('a["averyverylongword"]')
+  })
+})
+
+describe('wrapMessagesOf', () => {
+  test('breaks long messages and notes, turns a long self-message into a note', () => {
+    const source = [
+      'sequenceDiagram',
+      '  participant C as BPMSoft',
+      '  C->>S: POST create_task, deal fields',
+      '  S-->>C: task_id',
+      '  S->>S: template, clauses, check',
+      '  Note over C,S: a long note in two lines',
+    ].join('\n')
+    expect(wrapMessagesOf(source).split('\n')).toEqual([
+      'sequenceDiagram',
+      '  participant C as BPMSoft',
+      '  C->>S: POST create_task,<br>deal fields',
+      '  S-->>C: task_id',
+      '  Note over S: template,<br>clauses, check',
+      '  Note over C,S: a long note<br>in two lines',
+    ])
+  })
+})
+
+describe('layoutOf on a sequence diagram', () => {
+  const render = (source: string) => renderOf(source, false)
+  const wide = 'sequenceDiagram\n  C->>S: POST create_task, deal fields\n  S->>S: template, clauses, check\n  S-->>C: a docx or a question back'
+  const widthAt = (columns: number) => {
+    const art = layoutOf(wide, columns, true, render)
+    return 'lines' in art ? widthOf(art.lines) : -1
+  }
+
+  test('one that fits keeps its labels', () => {
+    expect(layoutOf(wide, 500, true, render)).toEqual(render(wide))
+  })
+
+  test('one too wide for the room wraps its labels', () => {
+    const full = widthAt(500)
+    expect(widthAt(full - 1)).toBeLessThan(full)
+    expect(layoutOf(wide, full - 1, true, render)).toEqual(render(wrapMessagesOf(wide)))
   })
 })

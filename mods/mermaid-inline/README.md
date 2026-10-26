@@ -22,6 +22,8 @@ other kinds (gantt, pie, mindmap, …) keep their fence. A top-down flowchart
 or state diagram is laid out left to right when that fits and loses nothing
 (rows are dear in a terminal: 5 rows instead of 30), and a state diagram's
 `[*]` start and end, which the renderer draws as empty boxes, are left out.
+A sequence diagram too wide for the window breaks its long messages and
+notes in two lines; a long self-message becomes a note over its participant.
 
 A mod: a plugin built on Claude Code **function hooks**, TypeScript that runs
 inside Claude Code's own process. Early access, so it needs the environment
